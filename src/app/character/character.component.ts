@@ -1,12 +1,14 @@
 import { Component } from '@angular/core';
+import { race } from 'q';
 
 @Component({
   selector: 'character',
   styleUrls:['./character.component.css'],
   template: `
-  <div> <h2>{{ name | titlecase }}</h2> </div>
-  <div> {{ race }} </div>
-  <div> <small>{{ libido }}, {{ gender }}</small> </div>
+  <div><h1>{{ name | titlecase }}</h1> </div>
+  <div> <b>{{ race }}</b> </div>
+  <div> <small>{{ gender }}, {{ libido }}</small> </div>
+  <div> <small>{{ weight }}, {{ skin }}</small> </div>
   <p> {{ char }} </p>
   <table>
       <tr>
@@ -25,40 +27,45 @@ import { Component } from '@angular/core';
   `
 })
 export class CharacterComponent {
-    name = this.nameGen();
-    race = this.raceGen();
     gender = this.genderGen();
+    name = this.nameGen(this.gender);
+    race = this.raceGen();
     libido = this.libidoGen();
     char = this.charGen();
     ideal = this.idealGen();
     bond = this.bondGen();
     flaw = this.flawGen();
+    skin = this.skinGen();
+    weight = this.weightGen();
 
     randomNum(num){
         return Math.floor(Math.random() * (num - 0))
     }
-    nameGen(){
-        let names = 'Abigail, Aemily, Emilia, Alexa, Alinea, Alina, Leena, Allyson, Allison, Alya, Aliya, Alys, Alyce, Ami, Amee, Andrea, Aendrea, Aria, Arya, Ariana, Aryana, Ariel, Arielle, Ashlene, Ashlyne, Aubree, Aubria, Bree, Audree, Audria, Dree, Aurora, Ava, Averee, Avery, Bella, Brianna, Brynn, Bryanna, Brooke, Brooklyn, Camila, Clayre, Clara, Clayra, Claire, Cloe, Cloey, Delyla, Dalia, Eliana, Elyna, Liana, Lyana, Ella, Ellie, Elli, Elyssa, Lyssie, Emma, Eva, Evylen, Faline, Genesys, Jenessa, Gina, Ginna, Janna, Grayce, Grace, Halia, Halie, Hanna, Hannah, Harper, Peria, Hazel, Azalea, Isabel, Belle, Jasmine, Jocelyn, Joyce, Celyne, Kaeli, Kathryn, Kathrinn, Cathryn, Kayla, Kym, Kymber, Layla, Laila, Lanna, Lea, Leia, Leah, Lily, Lyly, Lisbeth, Lysbeth, Luna, Loona, Madisyn, Maya, Maia, Mea, Melania, Melany, Mena, Mina, Mila, Myla, Milly, Amelia, Naomi, Nataly, Natta, Natylie, Natty, Nycole, Nicolle, Olyva, Alivia, Olivia, Penelope, Penny, Rianna, Ryanna, Ruby, Ryla, Rilie, Rylie, Samitha, Samentha, Sara, Sarah, Savanna, Scarlet, Sharlotte, Carlotta, Sophia, Stelly, Stella, Vala, Valentyna, Valea, Valerya, Valerie, Victoria, Victora, Violet, Viola, Zoe, Zoey, Zosy, Aaron, Aaryn, Abram, Bram, Abyl, Abel, Adam, Aedam, Adrian, Hadrian, Aiden, Aidyn, Alyx, Alix, Andres, Andrew, Andre, Angel, Anthony, Astin, Axel, Axyl, Benjamyn, Benjamin, Braddeus, Bradyn, Brynden, Brandyn, Bryne, Bryan, Bran, Calyb, Caleb, Camryn, Cam, Carliss, Cartyr, Cartus, Chirles, Charly, Conner, Cristian, Crystan, Damien, Damyn, Daniel, Dannel, Dann, Danny, David, Davyd, Diegon, Tiagon, Domnac, Dylan, Eli, Ely, Elias, Elyas, Elijah, Elijan, Emilian, Emynwell, Emmyn, Emmon, Eric, Eryc, Ethan, Athyn, Evan, Evyn, Ezran, Ezrus, Gabreil, Gabreal, Gael, Gayl, Gavyn, Gavin, Gray, Grasyn, Haddeus, Hudsen, Handyr, Hander, Harold, Haryld, Horus, Horace, Horyce, Hoseas, Huntyr, Han, Hynry, Henro, Iaen, Ian, Isaac, Isiah, Isaias, Ivaen, Ivan, Jacoby, Jacob, Jaeden, Jayden, Jak, Jyck, Jasyn, Jason, Jax, Jaxon, Jaymes, Iamus, Jestin, Yestin, John, Jonn, Jonath, Joathyn, Jorden, Jordyn, Joseth, Joeseph, Joshen, Goshen, Josyah, Josius, Jovan, Julian, Julyan, Kevin, Kevan, Lan, Alyn, Landon, Landyn, Lenus, Linus, Leon, Leo, Lynard, Levi, Levy, Liam, Logan, Lucan, Luc, Lucas, Lucyus, Louis, Lyncon, Lincus, Mason, Masyn, Mathew, Mattius, Matt, Maximer, Maximus, Michael, Migwell, Mither, Nathyn, Nathan, Nathynel, Nathanyel, Nicholus, Nik, Noam, Nolyn, Nolan, Olver, Olliver, Osco, Oscus, Oscar, Owyn, Owen, Remus, Jaeremy, Rian, Ryan, Robett, Robb, Roman, Romyn, Ryder, Samwell, Samuel, Sebasten, Bastien, Taegus, Santus, Theodor, Theodus, Thedoras, Thomys, Tommas, Tomm, Thom, Tophyr, Cristor, Tylor, Ty, Tylus, Victor, Vyctor, Vincent, Vyncent, Vynce, Wann, Wanny, Willam, Willem, Wytt, Xander, Alexander, Xavyer, Xavy, Havy, Zachaery, Zeke, Zeek, Ezekyel';
-        let namesList = names.split(', ');
+    skinGen(){
+        let skintone = ['light','medium','dark'];
+        let random = this.randomNum(skintone.length - 1);
+        return skintone[random] + ' skin color';
+    }
+    weightGen(){
+        let weight = ['skinny', 'medium weight', 'fat'];
+        let random = this.randomNum(weight.length - 1);
+        return weight[random];
+    }
+    nameGen(gender){
+        let femaleNames = 'Abigail, Aemily, Emilia, Alexa, Alinea, Alina, Leena, Allyson, Allison, Alya, Aliya, Alys, Alyce, Ami, Amee, Andrea, Aendrea, Aria, Arya, Ariana, Aryana, Ariel, Arielle, Ashlene, Ashlyne, Aubree, Aubria, Bree, Audree, Audria, Dree, Aurora, Ava, Averee, Avery, Bella, Brianna, Brynn, Bryanna, Brooke, Brooklyn, Camila, Clayre, Clara, Clayra, Claire, Cloe, Cloey, Delyla, Dalia, Eliana, Elyna, Liana, Lyana, Ella, Ellie, Elli, Elyssa, Lyssie, Emma, Eva, Evylen, Faline, Genesys, Jenessa, Gina, Ginna, Janna, Grayce, Grace, Halia, Halie, Hanna, Hannah, Harper, Peria, Hazel, Azalea, Isabel, Belle, Jasmine, Jocelyn, Joyce, Celyne, Kaeli, Kathryn, Kathrinn, Cathryn, Kayla, Kym, Kymber, Layla, Laila, Lanna, Lea, Leia, Leah, Lily, Lyly, Lisbeth, Lysbeth, Luna, Loona, Madisyn, Maya, Maia, Mea, Melania, Melany, Mena, Mina, Mila, Myla, Milly, Amelia, Naomi, Nataly, Natta, Natylie, Natty, Nycole, Nicolle, Olyva, Alivia, Olivia, Penelope, Penny, Rianna, Ryanna, Ruby, Ryla, Rilie, Rylie, Samitha, Samentha, Sara, Sarah, Savanna, Scarlet, Sharlotte, Carlotta, Sophia, Stelly, Stella, Vala, Valentyna, Valea, Valerya, Valerie, Victoria, Victora, Violet, Viola, Zoe, Zoey, Zosy';
+        let maleNames = 'Aaron, Aaryn, Abram, Bram, Abyl, Abel, Adam, Aedam, Adrian, Hadrian, Aiden, Aidyn, Alyx, Alix, Andres, Andrew, Andre, Angel, Anthony, Astin, Axel, Axyl, Benjamyn, Benjamin, Braddeus, Bradyn, Brynden, Brandyn, Bryne, Bryan, Bran, Calyb, Caleb, Camryn, Cam, Carliss, Cartyr, Cartus, Chirles, Charly, Conner, Cristian, Crystan, Damien, Damyn, Daniel, Dannel, Dann, Danny, David, Davyd, Diegon, Tiagon, Domnac, Dylan, Eli, Ely, Elias, Elyas, Elijah, Elijan, Emilian, Emynwell, Emmyn, Emmon, Eric, Eryc, Ethan, Athyn, Evan, Evyn, Ezran, Ezrus, Gabreil, Gabreal, Gael, Gayl, Gavyn, Gavin, Gray, Grasyn, Haddeus, Hudsen, Handyr, Hander, Harold, Haryld, Horus, Horace, Horyce, Hoseas, Huntyr, Han, Hynry, Henro, Iaen, Ian, Isaac, Isiah, Isaias, Ivaen, Ivan, Jacoby, Jacob, Jaeden, Jayden, Jak, Jyck, Jasyn, Jason, Jax, Jaxon, Jaymes, Iamus, Jestin, Yestin, John, Jonn, Jonath, Joathyn, Jorden, Jordyn, Joseth, Joeseph, Joshen, Goshen, Josyah, Josius, Jovan, Julian, Julyan, Kevin, Kevan, Lan, Alyn, Landon, Landyn, Lenus, Linus, Leon, Leo, Lynard, Levi, Levy, Liam, Logan, Lucan, Luc, Lucas, Lucyus, Louis, Lyncon, Lincus, Mason, Masyn, Mathew, Mattius, Matt, Maximer, Maximus, Michael, Migwell, Mither, Nathyn, Nathan, Nathynel, Nathanyel, Nicholus, Nik, Noam, Nolyn, Nolan, Olver, Olliver, Osco, Oscus, Oscar, Owyn, Owen, Remus, Jaeremy, Rian, Ryan, Robett, Robb, Roman, Romyn, Ryder, Samwell, Samuel, Sebasten, Bastien, Taegus, Santus, Theodor, Theodus, Thedoras, Thomys, Tommas, Tomm, Thom, Tophyr, Cristor, Tylor, Ty, Tylus, Victor, Vyctor, Vincent, Vyncent, Vynce, Wann, Wanny, Willam, Willem, Wytt, Xander, Alexander, Xavyer, Xavy, Havy, Zachaery, Zeke, Zeek, Ezekyel';
+        let list;
 
-        let a = [
-            '','','','','A','Be','De','El','Fa','Jo','Ki', 
-            'La','Ma','Na','O','Pa','Re','Si','Ta','Va'
-        ];
-        let b = [
-            'bar','ched','dell','far','gran','hal','jen','kel','lim',
-            'mor','net','penn','quil','rond','sark','shen','tur',
-            'vash','yor','zen'
-        ];
-        let c = [
-            '','a','ac','ai','al','am','an','ar','ea','el','er','ess',
-            'ett','ic','id','il','in','is','or','us'
-        ];
-        let randomA = this.randomNum(20);
-        let randomB = this.randomNum(20);
-        let randomC = this.randomNum(20);
-
-        let random = this.randomNum(namesList.length);
+        if (gender == 'cis male') list = maleNames;
+        else if (gender == 'cis female') list = femaleNames;
+        else {
+            let random = this.randomNum(100);
+            if (random < 50) list = femaleNames;
+            else list = maleNames;
+        }
+        
+        let namesList = list.split(', ');
+        let random = this.randomNum(namesList.length - 1);
         return namesList[random];
     }
     raceGen(){
@@ -99,17 +106,24 @@ export class CharacterComponent {
         }
     }
     genderGen(){
-        let gender = [
+        let genderCis = [
             'cis male',
-            'cis female',
+            'cis female'
+        ];
+        let genderQueer = [
             'trans male',
             'trans female',
             'nonbinary (more feminine)',
             'nonbinary (more masculine)',
             'nonbinary (neutral)'
         ];
-        let random = this.randomNum(6);
-        return gender[random];
+        let randomGender = this.randomNum(100);
+        if (randomGender < 25) return genderCis[0];
+        else if (randomGender >= 25 && randomGender < 50) return genderCis[1];
+        else {
+            randomGender = this.randomNum(4);
+            return genderQueer[randomGender];
+        }
     }
     libidoGen(){
         let libido = [
@@ -118,7 +132,7 @@ export class CharacterComponent {
             'bisexual',
             'asexual'
         ]
-        let random = this.randomNum(3);
+        let random = this.randomNum(libido.length - 1);
         return libido[random];
     }
     charGen(){
@@ -144,7 +158,7 @@ export class CharacterComponent {
             'Uses colorful oaths and exclamations',
             'Uses flowery speech or long words'
         ]
-        let random = this.randomNum(20);
+        let random = this.randomNum(characteristic.length - 1);
         return characteristic[random];
     }
     idealGen(){
@@ -170,7 +184,7 @@ export class CharacterComponent {
             'Power (evil)',
             'Pedemption (any)'
         ]
-        let random = this.randomNum(20);
+        let random = this.randomNum(ideals.length - 1);
         return ideals[random];
     }
     bondGen(){
@@ -185,7 +199,7 @@ export class CharacterComponent {
             'Valuable possession',
             'Revenge'
         ]
-        let random = this.randomNum(9);
+        let random = this.randomNum(bonds.length - 1);
         return bonds[random];
     }
     flawGen(){
@@ -203,7 +217,7 @@ export class CharacterComponent {
             'Possession of forbidden lore',
             'Foolhardy bravery'
         ]
-        let random = this.randomNum(12);
+        let random = this.randomNum(flaws.length - 1);
         return flaws[random];
     }
 }

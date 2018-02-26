@@ -2,5 +2,5 @@ body,
 table,
 div,
 p {
-    font-family: monospace;
+    font-family: 'source-code-pro', monospace;
 }
