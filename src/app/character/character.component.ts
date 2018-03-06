@@ -5,53 +5,59 @@ import { race } from 'q';
   selector: 'character',
   styleUrls:['./character.component.css'],
   template: `
-  <div><h1>{{ name | titlecase }}</h1> </div>
-  <div> <b>{{ race }}</b> </div>
-  <div> <small>{{ gender }}, {{ libido }}</small> </div>
-  <div> <small>{{ weight }}, {{ skin }}</small> </div>
-  <p> {{ char }} </p>
+  <div><h1>{{ character.name | titlecase }}</h1> </div>
+  <div> <b>{{ character.race }}</b> </div>
+  <div> <small>{{ character.gender }}, {{ character.libido }}</small> </div>
+  <div> <small>{{ character.weight }}, {{ character.skin }}</small> </div>
+  <p> {{ character.char }} </p>
   <table>
       <tr>
           <th>Ideal:</th>
-          <td>{{ ideal }}</td>
+          <td>{{ character.ideal }}</td>
       </tr>
       <tr>
           <th>Bond:</th>
-          <td>{{ bond }}</td>
+          <td>{{ character.bond }}</td>
       </tr>
       <tr>
           <th>Flaw:</th>
-          <td>{{ flaw }}</td>
+          <td>{{ character.flaw }}</td>
       </tr>
   </table>
   `
 })
 export class CharacterComponent {
-    gender = this.genderGen();
-    name = this.nameGen(this.gender);
-    race = this.raceGen();
-    libido = this.libidoGen();
-    char = this.charGen();
-    ideal = this.idealGen();
-    bond = this.bondGen();
-    flaw = this.flawGen();
-    skin = this.skinGen();
-    weight = this.weightGen();
+    getGender: string = this.genderGen()
 
-    randomNum(num){
+    character = {
+        gender: this.getGender,
+        name: this.nameGen(this.getGender),
+        race: this.raceGen(),
+        libido: this.libidoGen(),
+        char: this.charGen(),
+        ideal: this.idealGen(),
+        bond: this.bondGen(),
+        flaw: this.flawGen(),
+        skin: this.skinGen(),
+        weight: this.weightGen()
+    }
+
+    
+
+    randomNum(num): number {
         return Math.floor(Math.random() * (num - 0))
     }
-    skinGen(){
+    skinGen(): string {
         let skintone = ['light','medium','dark'];
         let random = this.randomNum(skintone.length - 1);
         return skintone[random] + ' skin color';
     }
-    weightGen(){
+    weightGen(): string {
         let weight = ['skinny', 'medium weight', 'fat'];
         let random = this.randomNum(weight.length - 1);
         return weight[random];
     }
-    nameGen(gender){
+    nameGen(gender: string){
         let femaleNames = 'Abigail, Aemily, Emilia, Alexa, Alinea, Alina, Leena, Allyson, Allison, Alya, Aliya, Alys, Alyce, Ami, Amee, Andrea, Aendrea, Aria, Arya, Ariana, Aryana, Ariel, Arielle, Ashlene, Ashlyne, Aubree, Aubria, Bree, Audree, Audria, Dree, Aurora, Ava, Averee, Avery, Bella, Brianna, Brynn, Bryanna, Brooke, Brooklyn, Camila, Clayre, Clara, Clayra, Claire, Cloe, Cloey, Delyla, Dalia, Eliana, Elyna, Liana, Lyana, Ella, Ellie, Elli, Elyssa, Lyssie, Emma, Eva, Evylen, Faline, Genesys, Jenessa, Gina, Ginna, Janna, Grayce, Grace, Halia, Halie, Hanna, Hannah, Harper, Peria, Hazel, Azalea, Isabel, Belle, Jasmine, Jocelyn, Joyce, Celyne, Kaeli, Kathryn, Kathrinn, Cathryn, Kayla, Kym, Kymber, Layla, Laila, Lanna, Lea, Leia, Leah, Lily, Lyly, Lisbeth, Lysbeth, Luna, Loona, Madisyn, Maya, Maia, Mea, Melania, Melany, Mena, Mina, Mila, Myla, Milly, Amelia, Naomi, Nataly, Natta, Natylie, Natty, Nycole, Nicolle, Olyva, Alivia, Olivia, Penelope, Penny, Rianna, Ryanna, Ruby, Ryla, Rilie, Rylie, Samitha, Samentha, Sara, Sarah, Savanna, Scarlet, Sharlotte, Carlotta, Sophia, Stelly, Stella, Vala, Valentyna, Valea, Valerya, Valerie, Victoria, Victora, Violet, Viola, Zoe, Zoey, Zosy';
         let maleNames = 'Aaron, Aaryn, Abram, Bram, Abyl, Abel, Adam, Aedam, Adrian, Hadrian, Aiden, Aidyn, Alyx, Alix, Andres, Andrew, Andre, Angel, Anthony, Astin, Axel, Axyl, Benjamyn, Benjamin, Braddeus, Bradyn, Brynden, Brandyn, Bryne, Bryan, Bran, Calyb, Caleb, Camryn, Cam, Carliss, Cartyr, Cartus, Chirles, Charly, Conner, Cristian, Crystan, Damien, Damyn, Daniel, Dannel, Dann, Danny, David, Davyd, Diegon, Tiagon, Domnac, Dylan, Eli, Ely, Elias, Elyas, Elijah, Elijan, Emilian, Emynwell, Emmyn, Emmon, Eric, Eryc, Ethan, Athyn, Evan, Evyn, Ezran, Ezrus, Gabreil, Gabreal, Gael, Gayl, Gavyn, Gavin, Gray, Grasyn, Haddeus, Hudsen, Handyr, Hander, Harold, Haryld, Horus, Horace, Horyce, Hoseas, Huntyr, Han, Hynry, Henro, Iaen, Ian, Isaac, Isiah, Isaias, Ivaen, Ivan, Jacoby, Jacob, Jaeden, Jayden, Jak, Jyck, Jasyn, Jason, Jax, Jaxon, Jaymes, Iamus, Jestin, Yestin, John, Jonn, Jonath, Joathyn, Jorden, Jordyn, Joseth, Joeseph, Joshen, Goshen, Josyah, Josius, Jovan, Julian, Julyan, Kevin, Kevan, Lan, Alyn, Landon, Landyn, Lenus, Linus, Leon, Leo, Lynard, Levi, Levy, Liam, Logan, Lucan, Luc, Lucas, Lucyus, Louis, Lyncon, Lincus, Mason, Masyn, Mathew, Mattius, Matt, Maximer, Maximus, Michael, Migwell, Mither, Nathyn, Nathan, Nathynel, Nathanyel, Nicholus, Nik, Noam, Nolyn, Nolan, Olver, Olliver, Osco, Oscus, Oscar, Owyn, Owen, Remus, Jaeremy, Rian, Ryan, Robett, Robb, Roman, Romyn, Ryder, Samwell, Samuel, Sebasten, Bastien, Taegus, Santus, Theodor, Theodus, Thedoras, Thomys, Tommas, Tomm, Thom, Tophyr, Cristor, Tylor, Ty, Tylus, Victor, Vyctor, Vincent, Vyncent, Vynce, Wann, Wanny, Willam, Willem, Wytt, Xander, Alexander, Xavyer, Xavy, Havy, Zachaery, Zeke, Zeek, Ezekyel';
         let list;
@@ -66,9 +72,10 @@ export class CharacterComponent {
         
         let namesList = list.split(', ');
         let random = this.randomNum(namesList.length - 1);
+
         return namesList[random];
     }
-    raceGen(){
+    raceGen(): string {
         let random = this.randomNum(20) + 1;
         let race = ['Half-Elf','Half-Orc','Human', 'Dwarf','Halfling'];
         let rareRace = ['Elf','Gnome','Tiefling','Dragonborn'];
@@ -105,7 +112,7 @@ export class CharacterComponent {
                 return race[2];
         }
     }
-    genderGen(){
+    genderGen(): string {
         let genderCis = [
             'cis male',
             'cis female'
@@ -125,7 +132,7 @@ export class CharacterComponent {
             return genderQueer[randomGender];
         }
     }
-    libidoGen(){
+    libidoGen(): string {
         let libido = [
             'straight',
             'gay',
@@ -135,7 +142,7 @@ export class CharacterComponent {
         let random = this.randomNum(libido.length - 1);
         return libido[random];
     }
-    charGen(){
+    charGen(): string {
         let characteristic = [
             'Absentminded',
             'Arrogant',
@@ -161,7 +168,7 @@ export class CharacterComponent {
         let random = this.randomNum(characteristic.length - 1);
         return characteristic[random];
     }
-    idealGen(){
+    idealGen(): string {
         let ideals = [
             'Aspiration (any)',
             'Charity (good)',
@@ -187,7 +194,7 @@ export class CharacterComponent {
         let random = this.randomNum(ideals.length - 1);
         return ideals[random];
     }
-    bondGen(){
+    bondGen(): string {
         let bonds = [
             'Personal goal or achievement',
             'Family members',
@@ -202,7 +209,7 @@ export class CharacterComponent {
         let random = this.randomNum(bonds.length - 1);
         return bonds[random];
     }
-    flawGen(){
+    flawGen(): string {
         let flaws = [
             'Forbidden love or romantic susceptibility',
             'Decadence',
