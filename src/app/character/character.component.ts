@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+
+import { Character } from './models/character.models';
 import { race } from 'q';
 
 @Component({
@@ -29,7 +31,7 @@ import { race } from 'q';
 export class CharacterComponent {
     getGender: string = this.genderGen()
 
-    character = {
+    character: Character = {
         gender: this.getGender,
         name: this.nameGen(this.getGender),
         race: this.raceGen(),
