@@ -8,26 +8,27 @@ import { race } from 'q';
   styleUrls:['./character.component.css'],
   template: `
   <button (click)='getCharacter()'>Generate</button>
-  
-  <div><h1>{{ character.name | titlecase }}</h1> </div>
-  <div> <b>{{ character.race }}</b> </div>
-  <div> <small>{{ character.gender }}, {{ character.libido }}</small> </div>
-  <div> <small>{{ character.weight }}, {{ character.skin }}</small> </div>
-  <p> {{ character.char }} </p>
-  <table>
-      <tr>
-          <th>Ideal:</th>
-          <td>{{ character.ideal }}</td>
-      </tr>
-      <tr>
-          <th>Bond:</th>
-          <td>{{ character.bond }}</td>
-      </tr>
-      <tr>
-          <th>Flaw:</th>
-          <td>{{ character.flaw }}</td>
-      </tr>
-  </table>
+  <div *ngIf='character'>
+      <div><h1>{{ character.name | titlecase }}</h1> </div>
+      <div> <b>{{ character.race }}</b> </div>
+      <div> <small>{{ character.gender }}, {{ character.libido }}</small> </div>
+      <div> <small>{{ character.weight }}, {{ character.skin }}</small> </div>
+      <p> {{ character.char }} </p>
+      <table>
+          <tr>
+              <th>Ideal:</th>
+              <td>{{ character.ideal }}</td>
+          </tr>
+          <tr>
+              <th>Bond:</th>
+              <td>{{ character.bond }}</td>
+          </tr>
+          <tr>
+              <th>Flaw:</th>
+              <td>{{ character.flaw }}</td>
+          </tr>
+      </table>
+  </div>
   `
 })
 export class CharacterComponent implements OnInit {
@@ -61,23 +62,23 @@ export class CharacterComponent implements OnInit {
         this.flawsList  = ['Forbidden love or romantic susceptibility','Decadence','Arrogance',"Envy of another person's possessions or station",'Overpowering greed','Prone to rage','Powerful enemy','Specific phobia','Shameful or scandalous history','Secret crime or misdeed','Possession of forbidden lore','Foolhardy bravery'];
     }
 
-    getGender: string = this.genderGen()
     
-    character: Character = {
-        gender: this.getGender,
-        name: this.nameGen(this.getGender),
-        race: this.raceGen(),
-        libido: this.libidoGen(),
-        char: this.charGen(),
-        ideal: this.idealGen(),
-        bond: this.bondGen(),
-        flaw: this.flawGen(),
-        skin: this.skinGen(),
-        weight: this.weightGen()
-    }
+    character: Character;
     
     getCharacter(){
-        console.log('hi');
+        let getGender: string = this.genderGen()
+        this.character = {
+            gender: getGender,
+            name: this.nameGen(getGender),
+            race: this.raceGen(),
+            libido: this.libidoGen(),
+            char: this.charGen(),
+            ideal: this.idealGen(),
+            bond: this.bondGen(),
+            flaw: this.flawGen(),
+            skin: this.skinGen(),
+            weight: this.weightGen()
+        }
     }
 
     randomNum(num: number): number {
