@@ -12,7 +12,9 @@ import { CharacterService } from './character.service';
   <navbar-component 
   (generate)='getCharacter()'
   [raceList]='this.raceList'
-  [rareRaceList]='this.rareRaceList'></navbar-component>
+  [rareRaceList]='this.rareRaceList'
+  [selected] = 'this.selected'
+  (select)='getSelected($event)'></navbar-component>
 
   <div *ngIf='character'>
       <div><h1>{{ character.name | titlecase }}</h1> </div>
@@ -71,13 +73,28 @@ export class CharacterComponent implements OnInit {
 
     
     character: Character;
-  
+    selected: Character = {
+        gender: 'any',
+        name: 'any',
+        race: 'any',
+        libido: 'any',
+        char: 'any',
+        ideal: 'any',
+        bond: 'any',
+        flaw: 'any',
+        skin: 'any',
+        weight: 'any'
+    };
+
     getCharacter(){
         let getGender: string = this.genderGen()
+        let race;
+        if (this.selected.race == 'any') race = this.raceGen();
+        else { race = this.selected.race }
         this.character = {
             gender: getGender,
             name: this.nameGen(getGender),
-            race: this.raceGen(),
+            race: race,
             libido: this.libidoGen(),
             char: this.charGen(),
             ideal: this.idealGen(),
@@ -86,6 +103,10 @@ export class CharacterComponent implements OnInit {
             skin: this.skinGen(),
             weight: this.weightGen()
         }
+    }
+
+    getSelected(event){
+        this.selected.race = event;
     }
 
     randomNum(num: number): number {
