@@ -157,43 +157,44 @@ export class CharacterComponent implements OnInit {
         }
     }
     genderGen() {
-        if (!this.genderCisList || !this.genderQueerList)return
+        if (!this.genderCisList || this.genderCisList.length < 1) return '...'
         let genderCis = this.genderCisList;
-        let genderQueer = this.genderQueerList;
         let randomGender = this.randomNum(100);
         if (randomGender < 25) return genderCis[0];
         else if (randomGender >= 25 && randomGender < 50) return genderCis[1];
         else {
+            if (!this.genderQueerList || this.genderQueerList.length < 1) return '...'
+            let genderQueer = this.genderQueerList;
             randomGender = this.randomNum(4);
             return genderQueer[randomGender];
         }
     }
     libidoGen(): string {
-        if (!this.libidoList) return
+        if (!this.libidoList || this.libidoList.length < 1) return '...'
         let libido = this.libidoList;
         let random = this.randomNum(libido.length);
         return libido[random];
     }
     charGen(): string {
-        if (!this.characteristicsList) return
+        if (!this.characteristicsList || this.characteristicsList.length < 1) return '...'
         let characteristic = this.characteristicsList;
         let random = this.randomNum(characteristic.length);
         return characteristic[random];
     }
     idealGen(): string {
-        if (!this.idealsList) return
+        if (!this.idealsList || this.idealsList.length < 1) return '...'
         let ideals = this.idealsList;
         let random = this.randomNum(ideals.length);
         return ideals[random];
     }
     bondGen(): string {
-        if (!this.bondsList) return
+        if (!this.bondsList || this.bondsList.length < 1) return '...'
         let bonds = this.bondsList;
         let random = this.randomNum(bonds.length);
         return bonds[random];
     }
     flawGen(): string {
-        if (!this.flawsList) return
+        if (!this.flawsList || this.flawsList.length < 1) return '...'
         let flaws = this.flawsList;
         let random = this.randomNum(flaws.length);
         return flaws[random];
