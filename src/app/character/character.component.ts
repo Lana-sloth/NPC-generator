@@ -3,11 +3,14 @@ import { Component, OnInit } from '@angular/core';
 import { Character } from './models/character.models';
 import { race } from 'q';
 
+import { CharacterService } from './character.service';
+
 @Component({
   selector: 'character',
   styleUrls:['./character.component.css'],
   template: `
-  <button (click)='getCharacter()'>Generate</button>
+  <button (click)='getCharacter()'> Generate ♥ </button>
+
   <div *ngIf='character'>
       <div><h1>{{ character.name | titlecase }}</h1> </div>
       <div> <b>{{ character.race }}</b> </div>
@@ -34,8 +37,8 @@ import { race } from 'q';
 export class CharacterComponent implements OnInit {
     skintoneList: string[];
     weightList: string[];
-    femaleNamesList: string;
-    maleNamesList: string;
+    femaleNamesList: string[];
+    maleNamesList: string[];
     raceList: string[];
     rareRaceList: string[];
     genderCisList: string[];
@@ -45,21 +48,22 @@ export class CharacterComponent implements OnInit {
     idealsList: string[];
     bondsList: string[];
     flawsList: string[];
-
+    
+    constructor(private characterService: CharacterService){}
     ngOnInit(){
-        this.skintoneList  = ['light','medium','dark'];
-        this.weightList = ['skinny', 'medium weight', 'fat'];
-        this.femaleNamesList = 'Abigail, Aemily, Emilia, Alexa, Alinea, Alina, Leena, Allyson, Allison, Alya, Aliya, Alys, Alyce, Ami, Amee, Andrea, Aendrea, Aria, Arya, Ariana, Aryana, Ariel, Arielle, Ashlene, Ashlyne, Aubree, Aubria, Bree, Audree, Audria, Dree, Aurora, Ava, Averee, Avery, Bella, Brianna, Brynn, Bryanna, Brooke, Brooklyn, Camila, Clayre, Clara, Clayra, Claire, Cloe, Cloey, Delyla, Dalia, Eliana, Elyna, Liana, Lyana, Ella, Ellie, Elli, Elyssa, Lyssie, Emma, Eva, Evylen, Faline, Genesys, Jenessa, Gina, Ginna, Janna, Grayce, Grace, Halia, Halie, Hanna, Hannah, Harper, Peria, Hazel, Azalea, Isabel, Belle, Jasmine, Jocelyn, Joyce, Celyne, Kaeli, Kathryn, Kathrinn, Cathryn, Kayla, Kym, Kymber, Layla, Laila, Lanna, Lea, Leia, Leah, Lily, Lyly, Lisbeth, Lysbeth, Luna, Loona, Madisyn, Maya, Maia, Mea, Melania, Melany, Mena, Mina, Mila, Myla, Milly, Amelia, Naomi, Nataly, Natta, Natylie, Natty, Nycole, Nicolle, Olyva, Alivia, Olivia, Penelope, Penny, Rianna, Ryanna, Ruby, Ryla, Rilie, Rylie, Samitha, Samentha, Sara, Sarah, Savanna, Scarlet, Sharlotte, Carlotta, Sophia, Stelly, Stella, Vala, Valentyna, Valea, Valerya, Valerie, Victoria, Victora, Violet, Viola, Zoe, Zoey, Zosy';
-        this.maleNamesList = 'Aaron, Aaryn, Abram, Bram, Abyl, Abel, Adam, Aedam, Adrian, Hadrian, Aiden, Aidyn, Alyx, Alix, Andres, Andrew, Andre, Angel, Anthony, Astin, Axel, Axyl, Benjamyn, Benjamin, Braddeus, Bradyn, Brynden, Brandyn, Bryne, Bryan, Bran, Calyb, Caleb, Camryn, Cam, Carliss, Cartyr, Cartus, Chirles, Charly, Conner, Cristian, Crystan, Damien, Damyn, Daniel, Dannel, Dann, Danny, David, Davyd, Diegon, Tiagon, Domnac, Dylan, Eli, Ely, Elias, Elyas, Elijah, Elijan, Emilian, Emynwell, Emmyn, Emmon, Eric, Eryc, Ethan, Athyn, Evan, Evyn, Ezran, Ezrus, Gabreil, Gabreal, Gael, Gayl, Gavyn, Gavin, Gray, Grasyn, Haddeus, Hudsen, Handyr, Hander, Harold, Haryld, Horus, Horace, Horyce, Hoseas, Huntyr, Han, Hynry, Henro, Iaen, Ian, Isaac, Isiah, Isaias, Ivaen, Ivan, Jacoby, Jacob, Jaeden, Jayden, Jak, Jyck, Jasyn, Jason, Jax, Jaxon, Jaymes, Iamus, Jestin, Yestin, John, Jonn, Jonath, Joathyn, Jorden, Jordyn, Joseth, Joeseph, Joshen, Goshen, Josyah, Josius, Jovan, Julian, Julyan, Kevin, Kevan, Lan, Alyn, Landon, Landyn, Lenus, Linus, Leon, Leo, Lynard, Levi, Levy, Liam, Logan, Lucan, Luc, Lucas, Lucyus, Louis, Lyncon, Lincus, Mason, Masyn, Mathew, Mattius, Matt, Maximer, Maximus, Michael, Migwell, Mither, Nathyn, Nathan, Nathynel, Nathanyel, Nicholus, Nik, Noam, Nolyn, Nolan, Olver, Olliver, Osco, Oscus, Oscar, Owyn, Owen, Remus, Jaeremy, Rian, Ryan, Robett, Robb, Roman, Romyn, Ryder, Samwell, Samuel, Sebasten, Bastien, Taegus, Santus, Theodor, Theodus, Thedoras, Thomys, Tommas, Tomm, Thom, Tophyr, Cristor, Tylor, Ty, Tylus, Victor, Vyctor, Vincent, Vyncent, Vynce, Wann, Wanny, Willam, Willem, Wytt, Xander, Alexander, Xavyer, Xavy, Havy, Zachaery, Zeke, Zeek, Ezekyel';
-        this.raceList  = ['Half-Elf','Half-Orc','Human', 'Dwarf','Halfling'];
-        this.rareRaceList  = ['Elf','Gnome','Tiefling','Dragonborn'];
-        this.genderCisList  = ['cis male','cis female'];
-        this.genderQueerList  = ['trans male','trans female','nonbinary (more feminine)','nonbinary (more masculine)','nonbinary (neutral)'];
-        this.libidoList  = ['straight','gay','bisexual','asexual'];
-        this.characteristicsList  = ['Absentminded','Arrogant','Boorish','Chews something','Clumsy','Curious','Dim-witted','Fiddles and fidgets nervously','Frequently uses the wrong word','Friendly','Irritable','Prone to predictions of certain doom','Pronounced scar','Slurs words, lisps or stutters','Speaks loudly or whispers','Squints','Stares into distance','Suspicious','Uses colorful oaths and exclamations','Uses flowery speech or long words'];
-        this.idealsList  = ['Aspiration (any)','Charity (good)','Community (lawful)','Creativity (chaotic)','Discovery (any)','Fairness (lawful)','Freedom (chaotic)','Glory (any)','Greater good (good)','Greed (evil)','Honor (lawful)','Independence (chaotic)','Knowledge (neutral)','Life (good)','Live and let live (neutral)','Might (evil)','Nation (any)','People (neutral)','Power (evil)','Pedemption (any)'];
-        this.bondsList  = ['Personal goal or achievement','Family members','Colleagues or compatriots','Benefactor, patron or employer','Romantic interest','Special place','Keepsake','Valuable possession','Revenge'];
-        this.flawsList  = ['Forbidden love or romantic susceptibility','Decadence','Arrogance',"Envy of another person's possessions or station",'Overpowering greed','Prone to rage','Powerful enemy','Specific phobia','Shameful or scandalous history','Secret crime or misdeed','Possession of forbidden lore','Foolhardy bravery'];
+        this.skintoneList = this.characterService.getLists('skin');
+        this.weightList = this.characterService.getLists('weight');
+        this.femaleNamesList = this.characterService.getLists('femaleNames');
+        this.maleNamesList = this.characterService.getLists('maleNames');
+        this.raceList  = this.characterService.getLists('race');
+        this.rareRaceList  = this.characterService.getLists('rareRace');
+        this.genderCisList  = this.characterService.getLists('genderCis');
+        this.genderQueerList  = this.characterService.getLists('genderQueer');
+        this.libidoList  = this.characterService.getLists('libido');
+        this.characteristicsList  = this.characterService.getLists('characteristic');
+        this.idealsList  = this.characterService.getLists('ideal');
+        this.bondsList  = this.characterService.getLists('bond');
+        this.flawsList  = this.characterService.getLists('flaw');
     }
 
     
@@ -87,13 +91,13 @@ export class CharacterComponent implements OnInit {
     skinGen(): string {
         if (!this.skintoneList) return
         let skintone = this.skintoneList;
-        let random = this.randomNum(skintone.length - 1);
+        let random = this.randomNum(skintone.length);
         return skintone[random] + ' skin color';
     }
     weightGen(): string {
         if (!this.weightList) return
         let weight = this.weightList;
-        let random = this.randomNum(weight.length - 1);
+        let random = this.randomNum(weight.length);
         return weight[random];
     }
     nameGen(gender: string){
@@ -110,10 +114,9 @@ export class CharacterComponent implements OnInit {
             else list = maleNames;
         }
         
-        let namesList = list.split(', ');
-        let random = this.randomNum(namesList.length - 1);
+        let random = this.randomNum(list.length);
 
-        return namesList[random];
+        return list[random];
     }
     raceGen(): string {
         if (!this.raceList || !this.rareRaceList) return
@@ -168,31 +171,31 @@ export class CharacterComponent implements OnInit {
     libidoGen(): string {
         if (!this.libidoList) return
         let libido = this.libidoList;
-        let random = this.randomNum(libido.length - 1);
+        let random = this.randomNum(libido.length);
         return libido[random];
     }
     charGen(): string {
         if (!this.characteristicsList) return
         let characteristic = this.characteristicsList;
-        let random = this.randomNum(characteristic.length - 1);
+        let random = this.randomNum(characteristic.length);
         return characteristic[random];
     }
     idealGen(): string {
         if (!this.idealsList) return
         let ideals = this.idealsList;
-        let random = this.randomNum(ideals.length - 1);
+        let random = this.randomNum(ideals.length);
         return ideals[random];
     }
     bondGen(): string {
         if (!this.bondsList) return
         let bonds = this.bondsList;
-        let random = this.randomNum(bonds.length - 1);
+        let random = this.randomNum(bonds.length);
         return bonds[random];
     }
     flawGen(): string {
         if (!this.flawsList) return
         let flaws = this.flawsList;
-        let random = this.randomNum(flaws.length - 1);
+        let random = this.randomNum(flaws.length);
         return flaws[random];
     }
 }
