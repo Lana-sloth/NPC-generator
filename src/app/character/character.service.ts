@@ -2,7 +2,7 @@ export class CharacterService {
 
     constructor(){}
     
-    getLists(a: string){
+    getLists(a: string): string[] {
         switch (a) {
             case 'skin': return ['light','medium','dark'];
             case 'weight': return ['skinny', 'medium weight', 'fat'];

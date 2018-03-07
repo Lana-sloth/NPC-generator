@@ -9,6 +9,7 @@ import { CharacterService } from './character.service';
   selector: 'character',
   styleUrls:['./character.component.css'],
   template: `
+  <navbar-component></navbar-component>
   <button (click)='getCharacter()'> Generate ♥ </button>
 
   <div *ngIf='character'>
