@@ -1,6 +1,7 @@
 body,
 table,
 div,
+span,
 p {
     font-family: 'source-code-pro', monospace;
 }

@@ -9,7 +9,10 @@ import { CharacterService } from './character.service';
   selector: 'character',
   styleUrls:['./character.component.css'],
   template: `
-  <navbar-component (generate)='getCharacter()'></navbar-component>
+  <navbar-component 
+  (generate)='getCharacter()'
+  [raceList]='this.raceList'
+  [rareRaceList]='this.rareRaceList'></navbar-component>
 
   <div *ngIf='character'>
       <div><h1>{{ character.name | titlecase }}</h1> </div>
