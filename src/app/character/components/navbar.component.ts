@@ -1,11 +1,18 @@
-import { Component } from '@angular/core';
+import { Component, Output, EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'navbar-component',
   styleUrls: ['../../app.component.css'],
   template: `
-  <div>navbar</div>
+  <button (click)='onGenerate()'> Generate ♥ </button>
   <hr>
   `
 })
-export class NavbarComponent {}
+export class NavbarComponent {
+    @Output()
+    generate: EventEmitter<any> = new EventEmitter();
+
+    onGenerate(){
+        this.generate.emit();
+    }
+}

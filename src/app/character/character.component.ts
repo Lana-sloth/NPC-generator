@@ -9,8 +9,7 @@ import { CharacterService } from './character.service';
   selector: 'character',
   styleUrls:['./character.component.css'],
   template: `
-  <navbar-component></navbar-component>
-  <button (click)='getCharacter()'> Generate ♥ </button>
+  <navbar-component (generate)='getCharacter()'></navbar-component>
 
   <div *ngIf='character'>
       <div><h1>{{ character.name | titlecase }}</h1> </div>
@@ -69,7 +68,7 @@ export class CharacterComponent implements OnInit {
 
     
     character: Character;
-    
+  
     getCharacter(){
         let getGender: string = this.genderGen()
         this.character = {
