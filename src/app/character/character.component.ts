@@ -42,8 +42,6 @@ import { CharacterService } from './character.service';
 export class CharacterComponent implements OnInit {
     skintoneList: string[];
     weightList: string[];
-    femaleNamesList: string[];
-    maleNamesList: string[];
     raceList: string[];
     rareRaceList: string[];
     genderCisList: string[];
@@ -59,8 +57,6 @@ export class CharacterComponent implements OnInit {
     ngOnInit(){
         this.skintoneList = this.characterService.getLists('skin');
         this.weightList = this.characterService.getLists('weight');
-        this.femaleNamesList = this.characterService.getLists('humanFemaleNames');
-        this.maleNamesList = this.characterService.getLists('humanMaleNames');
         this.raceList  = this.characterService.getLists('race');
         this.rareRaceList  = this.characterService.getLists('rareRace');
         this.genderCisList  = this.characterService.getLists('genderCis');
@@ -94,12 +90,20 @@ export class CharacterComponent implements OnInit {
 
     getCharacter(){
         let getGender: string = this.genderGen()
+
+        // if RACE selected in navbar
         let race;
         if (this.selectedRace == 'any') race = this.raceGen();
         else { race = this.selectedRace }
+
+        // if NAME selected in navbar
+        let name;
+        if (this.selectedName == 'any') name = this.nameGen(getGender, 'any');
+        else { name = this.nameGen(getGender, this.selectedName) }
+
         this.character = {
             gender: getGender,
-            name: this.nameGen(getGender),
+            name: name,
             race: race,
             libido: this.libidoGen(),
             char: this.charGen(),
@@ -134,18 +138,22 @@ export class CharacterComponent implements OnInit {
         let random = this.randomNum(weight.length);
         return weight[random];
     }
-    nameGen(gender: string){
-        if (!this.femaleNamesList || !this.maleNamesList) return
-        let femaleNames = this.femaleNamesList;
-        let maleNames = this.maleNamesList;
+    nameGen(gender: string, raceName: string){
+        if (!this.namesList) return
         let list;
+
+        // chooses name according to race
+        if (raceName == 'any') list = this.namesList.human;
+        else if (raceName == 'Elf') list = this.namesList.elf;
+        else return;
         
-        if (gender == 'cis male') list = maleNames;
-        else if (gender == 'cis female') list = femaleNames;
+        // chooses name according to gender
+        if (gender == 'cis male') list = list.male;
+        else if (gender == 'cis female') list = list.female;
         else {
             let random = this.randomNum(100);
-            if (random < 50) list = femaleNames;
-            else list = maleNames;
+            if (random < 50) list = list.female;
+            else list = list.male;
         }
         
         let random = this.randomNum(list.length);
