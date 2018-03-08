@@ -145,6 +145,7 @@ export class CharacterComponent implements OnInit {
         // chooses name according to race
         if (raceName == 'any') list = this.namesList.human;
         else if (raceName == 'Elf') list = this.namesList.elf;
+        else if (raceName == 'Orc') list = this.namesList.orc;
         else return;
         
         // chooses name according to gender
