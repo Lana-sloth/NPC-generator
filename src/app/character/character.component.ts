@@ -13,8 +13,8 @@ import { CharacterService } from './character.service';
   (generate)='getCharacter()'
   [raceList]='this.raceList'
   [rareRaceList]='this.rareRaceList'
-  [selected] = 'this.selected'
-  (select)='getSelected($event)'></navbar-component>
+  (selectRace)='getSelectedRace($event)'
+  (selectName)='getSelectedName($event)'></navbar-component>
 
   <div *ngIf='character'>
       <div><h1>{{ character.name | titlecase }}</h1> </div>
@@ -73,24 +73,15 @@ export class CharacterComponent implements OnInit {
 
     
     character: Character;
-    selected: Character = {
-        gender: 'any',
-        name: 'any',
-        race: 'any',
-        libido: 'any',
-        char: 'any',
-        ideal: 'any',
-        bond: 'any',
-        flaw: 'any',
-        skin: 'any',
-        weight: 'any'
-    };
+    
+    selectedRace: string = 'any';
+    selectedName: string = 'any';
 
     getCharacter(){
         let getGender: string = this.genderGen()
         let race;
-        if (this.selected.race == 'any') race = this.raceGen();
-        else { race = this.selected.race }
+        if (this.selectedRace == 'any') race = this.raceGen();
+        else { race = this.selectedRace }
         this.character = {
             gender: getGender,
             name: this.nameGen(getGender),
@@ -105,8 +96,12 @@ export class CharacterComponent implements OnInit {
         }
     }
 
-    getSelected(event){
-        this.selected.race = event;
+    getSelectedRace(event){
+        this.selectedRace = event;
+    }
+    getSelectedName(event){
+        this.selectedName = event;
+        console.log(this.selectedName);
     }
 
     randomNum(num: number): number {
@@ -129,7 +124,7 @@ export class CharacterComponent implements OnInit {
         let femaleNames = this.femaleNamesList;
         let maleNames = this.maleNamesList;
         let list;
-
+        
         if (gender == 'cis male') list = maleNames;
         else if (gender == 'cis female') list = femaleNames;
         else {
@@ -180,7 +175,7 @@ export class CharacterComponent implements OnInit {
                 return race[2];
         }
     }
-    genderGen() {
+    genderGen(): string {
         if (!this.genderCisList || this.genderCisList.length < 1) return '...'
         let genderCis = this.genderCisList;
         let randomGender = this.randomNum(100);

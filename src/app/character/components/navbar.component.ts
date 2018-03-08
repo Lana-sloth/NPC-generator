@@ -7,9 +7,15 @@ import { Character } from '../models/character.models';
   styleUrls: ['../../app.component.css'],
   template: `
   <span>race:</span>
-  <select #a (change)='onSelect(a.value, "race")'>
+  <select #r (change)='onSelect(r.value)'>
       <option value='any'> any </option>
-      <option *ngFor='let race of raceList' value='{{race}}'>{{ race }}</option>
+      <option *ngFor='let race of raceSelect' value='{{race}}'>{{ race }}</option>
+  </select>
+
+  <span>name:</span>
+  <select #n (change)='onSelectName(n.value)'>
+      <option value='any'> any </option>
+      <option *ngFor='let name of raceNames' value='{{ name }}'>{{ name }}</option>
   </select>
 
   <button (click)='onGenerate()'> Generate ♥ </button>
@@ -17,37 +23,39 @@ import { Character } from '../models/character.models';
   `
 })
 export class NavbarComponent implements OnInit {
-    
-    raceSelect: string[];
-    ngOnInit(){
-        this.raceSelect = this.raceList.concat(this.rareRaceList);
-    }
-    
-    // GENERATE CHARACTER
-    onGenerate(){
-        this.generate.emit();
-    }
-    @Output()
-    generate: EventEmitter<any> = new EventEmitter();
-    
-
-    onSelect(value: string, property: string){
-        this.select.emit(value);
-    }
-    @Output()
-    select: EventEmitter<any> = new EventEmitter();
-
     @Input()
     raceList: string[];
 
     @Input()
     rareRaceList: string[];
 
-    @Input()
-    selected: Character;
+    raceSelect: string[];
+    raceNames;
 
+    ngOnInit(){
+        this.raceSelect = this.raceList.concat(this.rareRaceList);
+        this.raceNames = ['Elf', 'Orc'];
+    }
     
+    // GENERATE CHARACTER
+    @Output()
+    generate: EventEmitter<any> = new EventEmitter();
+    onGenerate(){
+        this.generate.emit();
+    }
+    
+    // GET SELECTED RACE
+    @Output()
+    selectRace: EventEmitter<any> = new EventEmitter();
+    onSelect(value: string){
+        this.selectRace.emit(value);
+    }
 
-    
+    // GET SELECTED NAME
+    @Output()
+    selectName: EventEmitter<any> = new EventEmitter();
+    onSelectName(value: string){
+        this.selectName.emit(value);
+    }
     
 }
