@@ -53,13 +53,14 @@ export class CharacterComponent implements OnInit {
     idealsList: string[];
     bondsList: string[];
     flawsList: string[];
+    namesList;
     
     constructor(private characterService: CharacterService){}
     ngOnInit(){
         this.skintoneList = this.characterService.getLists('skin');
         this.weightList = this.characterService.getLists('weight');
-        this.femaleNamesList = this.characterService.getLists('femaleNames');
-        this.maleNamesList = this.characterService.getLists('maleNames');
+        this.femaleNamesList = this.characterService.getLists('humanFemaleNames');
+        this.maleNamesList = this.characterService.getLists('humanMaleNames');
         this.raceList  = this.characterService.getLists('race');
         this.rareRaceList  = this.characterService.getLists('rareRace');
         this.genderCisList  = this.characterService.getLists('genderCis');
@@ -69,6 +70,20 @@ export class CharacterComponent implements OnInit {
         this.idealsList  = this.characterService.getLists('ideal');
         this.bondsList  = this.characterService.getLists('bond');
         this.flawsList  = this.characterService.getLists('flaw');
+        this.namesList = {
+            human: {
+                male: this.characterService.getLists('humanMaleNames'),
+                female: this.characterService.getLists('humanFemaleNames')
+            },
+            elf: {
+                male: this.characterService.getLists('elfMaleNames'),
+                female: this.characterService.getLists('elfFemaleNames')
+            },
+            orc: {
+                male: this.characterService.getLists('orcMaleNames'),
+                female: this.characterService.getLists('orcFemaleNames')
+            }
+        }
     }
 
     
