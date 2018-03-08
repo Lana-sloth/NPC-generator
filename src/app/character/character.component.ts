@@ -66,20 +66,7 @@ export class CharacterComponent implements OnInit {
         this.idealsList  = this.characterService.getLists('ideal');
         this.bondsList  = this.characterService.getLists('bond');
         this.flawsList  = this.characterService.getLists('flaw');
-        this.namesList = {
-            human: {
-                male: this.characterService.getLists('humanMaleNames'),
-                female: this.characterService.getLists('humanFemaleNames')
-            },
-            elf: {
-                male: this.characterService.getLists('elfMaleNames'),
-                female: this.characterService.getLists('elfFemaleNames')
-            },
-            orc: {
-                male: this.characterService.getLists('orcMaleNames'),
-                female: this.characterService.getLists('orcFemaleNames')
-            }
-        }
+        this.namesList = this.characterService.getLists('names');
     }
 
     
@@ -120,7 +107,6 @@ export class CharacterComponent implements OnInit {
     }
     getSelectedName(event){
         this.selectedName = event;
-        console.log(this.selectedName);
     }
 
     randomNum(num: number): number {
@@ -149,12 +135,12 @@ export class CharacterComponent implements OnInit {
         else return;
         
         // chooses name according to gender
-        if (gender == 'cis male') list = list.male;
-        else if (gender == 'cis female') list = list.female;
+        if (gender == 'cis male') list = list.male();
+        else if (gender == 'cis female') list = list.female();
         else {
             let random = this.randomNum(100);
-            if (random < 50) list = list.female;
-            else list = list.male;
+            if (random < 50) list = list.female();
+            else list = list.male();
         }
         
         let random = this.randomNum(list.length);
