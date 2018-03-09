@@ -1,6 +1,10 @@
+import { Injectable } from '@angular/core';
+import { Http } from '@angular/http';
+
+@Injectable()
 export class CharacterService {
 
-    constructor(){}
+    constructor(private http: Http){}
     
     getLists(a: string): string | any {
         switch (a) {

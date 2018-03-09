@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { HttpModule } from '@angular/http'; 
 
 
 import { CharacterComponent } from './character.component';
@@ -14,7 +15,8 @@ import { CharacterService } from './character.service';
     NavbarComponent
   ],
   imports: [
-    CommonModule
+    CommonModule,
+    HttpModule
   ],
   providers: [CharacterService],
   exports: [CharacterComponent]
